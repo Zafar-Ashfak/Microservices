@@ -20,8 +20,8 @@ public class UserController {
     @PostMapping
     public ResponseEntity<?> create(@RequestBody User user) {
         try {
-            this.userService.create(user);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            User savedUser = this.userService.create(user);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
         } catch (Exception e) {
             e.fillInStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to create user");
@@ -40,11 +40,37 @@ public class UserController {
     }
 
     // Get single user
-//    user@GetMapping("/id")
-//    public User getUser(@PathVariable String id) {
-//
-//    }
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getUser(@PathVariable String id) {
+        User user = this.userService.getUser(id);
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with ID " + id + " not found");
+        }
+
+        return ResponseEntity.ok(user);
+    }
 
     // Update user
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@RequestBody User user, @PathVariable String id) {
+        User existingUser = this.userService.update(user, id);
+        if (existingUser != null){
+            return ResponseEntity.ok(existingUser);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with ID " + id + " not found");
+        }
+    }
+
     // Delete User
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable String id) {
+        try {
+            this.userService.delete(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } catch (Exception e) {
+            e.fillInStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete with ID: " + id);
+        }
+
+    }
 }
