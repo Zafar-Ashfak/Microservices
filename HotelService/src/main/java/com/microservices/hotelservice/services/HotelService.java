@@ -6,6 +6,8 @@ import com.microservices.hotelservice.repository.HotelRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class HotelService {
@@ -18,5 +20,9 @@ public class HotelService {
     public Hotel getHotel(String id) {
         return this.hotelRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Hotel with ID: " + id + " not found"));
+    }
+
+    public List<Hotel> getAllHotels() {
+        return this.hotelRepository.findAll();
     }
 }

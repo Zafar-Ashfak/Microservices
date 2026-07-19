@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/hotels")
 @RequiredArgsConstructor
@@ -38,6 +40,15 @@ public class HotelController {
     }
 
     // Get all hotels
+    @GetMapping
+    public ResponseEntity<List<Hotel>> getAllHotels() {
+        List<Hotel> hotelList = this.hotelService.getAllHotels();
+        if (hotelList.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } else {
+            return ResponseEntity.ok(hotelList);
+        }
+    }
 
     // update hotel
 
