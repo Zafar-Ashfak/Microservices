@@ -1,6 +1,5 @@
 package com.microservices.userservices.model;
 
-import com.microservices.userservices.controller.Rating;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

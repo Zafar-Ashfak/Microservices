@@ -18,10 +18,10 @@ public class HotelController {
 
     // Create hotel
     @PostMapping
-    public ResponseEntity<?> createHotel(Hotel hotel) {
+    public ResponseEntity<?> createHotel(@RequestBody Hotel hotel) {
         try {
              Hotel savedHotel =  this.hotelService.createHotel(hotel);
-            return ResponseEntity.status(HttpStatus.CREATED).body(hotel);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedHotel);
         } catch (Exception e) {
             e.fillInStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to create hotel");
@@ -32,11 +32,11 @@ public class HotelController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getHotel(@PathVariable String id) {
         Hotel hotel =  this.hotelService.getHotel(id);
-        if (hotel != null) {
-            ResponseEntity.ok(hotel);
+        if (hotel == null) {
+            ResponseEntity.status(HttpStatus.NOT_FOUND).body("Hotel with ID: " + id + " not found");
         }
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Hotel with ID: " + id + "not found");
+        return ResponseEntity.ok(hotel);
     }
 
     // Get all hotels
@@ -51,6 +51,25 @@ public class HotelController {
     }
 
     // update hotel
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@RequestBody Hotel hotel, @PathVariable String id) {
+        Hotel existingHotel = this.hotelService.update(hotel, id);
+        if (existingHotel != null) {
+            return ResponseEntity.ok(existingHotel);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Hotel with ID: " + id + " not found");
+        }
+    }
 
     // delete hotel
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable String id) {
+        try {
+            this.hotelService.delete(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } catch (Exception e) {
+            e.fillInStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete hotel");
+        }
+    }
 }

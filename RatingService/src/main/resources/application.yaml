@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: RatingService
+  datasource:
+    url: jdbc:mysql://localhost:3306/microservices
+    username: root
+    password: aftab@14581
+server:
+  port: 8083

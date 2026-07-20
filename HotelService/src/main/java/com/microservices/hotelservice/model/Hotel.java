@@ -1,5 +1,6 @@
 package com.microservices.hotelservice.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,8 @@ public class Hotel {
 
     private String name;
     private String location;
+
+    @Column(length = 1000)
     private String about;
 
 }

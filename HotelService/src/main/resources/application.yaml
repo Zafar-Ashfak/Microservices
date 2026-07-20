@@ -1,16 +1,18 @@
 spring:
   application:
     name: HotelService
+
   datasource:
     url: jdbc:postgresql://localhost:5432/microservices
-    username:
-    password:
+    username: zafaraftab
+    password: IamProgrammer@008
+
   jpa:
     show-sql: true
     hibernate:
       ddl-auto: update
+    properties:
+      hibernate.hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
 
 server:
   port: 8082
-
-
