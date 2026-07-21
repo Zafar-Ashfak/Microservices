@@ -52,7 +52,7 @@ public class RatingController {
 
 
     // Get all ratings by hotelId
-    @GetMapping("/users/{hotelId}")
+    @GetMapping("/hotels/{hotelId}")
     public ResponseEntity<?> getAllRatingsByHotelId(@PathVariable String hotelId) {
         List<Rating> ratings = this.ratingService.getAllRatingsByHotelId(hotelId);
         if (ratings.isEmpty()) {
